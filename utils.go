@@ -91,20 +91,35 @@ func textSliceToString(text []Text) string {
 	return Join(text)
 }
 
-func SegmentsToObj(segs []Segment, searchMode bool) (output []*Token) {
+func SegmentsToID(segs []Segment, searchMode bool) (output []interface{}) {
 	if searchMode {
-		//for _, seg := range segs {
-		//	output = append(output, tokenToSlice(seg.token)...)
-		//}
+		for _, seg := range segs {
+			output = append(output, tokenToIDSlice(seg.token)...)
+		}
 	} else {
 		for _, seg := range segs {
 			//output = append(output, seg.token.Text())
-			output = append(output, seg.token)
+			output = append(output, seg.token.ID)
 		}
 	}
 	return
 }
 
+func tokenToIDSlice(token *Token) (output []interface{}) {
+	hasOnlyTerminalToken := true
+	for _, s := range token.segments {
+		if len(s.token.segments) > 1 {
+			hasOnlyTerminalToken = false
+		}
+	}
+	if !hasOnlyTerminalToken {
+		for _, s := range token.segments {
+			output = append(output, tokenToIDSlice(s.token)...)
+		}
+	}
+	output = append(output, token.ID)
+	return output
+}
 
 func Join(a []Text) string {
 	switch len(a) {
