@@ -117,6 +117,9 @@ func tokenToIDSlice(token *Token) (output []interface{}) {
 			output = append(output, tokenToIDSlice(s.token)...)
 		}
 	}
+	if token.ID == nil {
+		return
+	}
 	output = append(output, token.ID)
 	return output
 }
