@@ -123,7 +123,7 @@ type Dict struct {
 	Frequency int
 }
 
-func (seg *Segmenter) LoadExtendDictionary(list []Dict) {
+func (seg *Segmenter) LoadExtendDictionary(list []*Dict) {
 	//seg.dict = NewDictionary()
 	if seg.dict == nil {
 		seg.dict = NewDictionary()
